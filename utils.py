@@ -7,6 +7,7 @@ import numpy as np
 from scipy.signal import stft, istft
 from pystoi import stoi
 from pysiib import SIIB
+from IPython.display import Audio, display
 
 
 # Create data using data model from class
@@ -391,3 +392,14 @@ def evaluate(est, target, fs=16000):
         "SIIB": SIIB(target, est, fs, window="hann"),
         "SNR":  seg_snr(est, target),
     }
+
+
+# Function to listen to the target signal at different stages
+def listen(scene, beamformed, fs=16000):
+    ref = 0
+    print("Clean target (target image at ref mic):")
+    display(Audio(scene["target_image"][ref], rate=fs))
+    print("Received (noisy mixture at ref mic):")
+    display(Audio(scene["mix"][ref], rate=fs))
+    print("Beamformed output:")
+    display(Audio(beamformed, rate=fs))
